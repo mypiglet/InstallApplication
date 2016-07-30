@@ -1,0 +1,3 @@
+---
+  configs_dir:
+    - { name: "Ansible temporary directory", dir: "/tmp/ansible/", mode: "0755"}
