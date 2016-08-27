@@ -1,0 +1,4 @@
+---
+  - debug: var=ansible_distribution
+  - include: "{{ role_path }}/files/ubuntu.yml"
+    when: ansible_distribution == "Ubuntu"

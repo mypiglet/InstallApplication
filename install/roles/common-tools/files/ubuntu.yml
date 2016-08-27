@@ -1,0 +1,82 @@
+---
+  - name: Create default directory
+    file:
+      path: "{{ item.dir }}"
+      mode: "{{ item.mode }}"
+      state: directory
+      recurse: yes
+    with_items:
+      "{{ configs_dir }}"
+
+  - name: Install Unikey for Ubuntu
+    apt:
+      name: ibus-unikey
+      state: latest
+    tags: install_all, necessary_app
+
+  - name: Installing OpenJDK
+    apt:
+      name: openjdk-8-jdk
+    tags: install_all, necessary_app
+
+  - name: Installing Filezilla
+    apt:
+      name: filezilla
+    tags: install_all, necessary_app
+
+  - name: Installing VirtualBox (latest version)
+    apt:
+      name: virtualbox
+    tags: install_all, necessary_app
+
+  - name: Installing Virtualbox extension package
+    apt:
+      name: virtualbox-ext-pack
+    tags: install_all, necessary_app
+
+# - name: Installing Skype
+#   apt:
+#     deb: https://download.skype.com/linux/skype-ubuntu-precise_4.3.0.37-1_i386.deb
+#   tags: install_all, necessary_app
+#
+# - name: Installing Teamview
+#   apt:
+#     deb: https://download.teamviewer.com/download/teamviewer_i386.deb
+#   tags: install_all, necessary_app
+
+  - name: Installing Git version control
+    apt:
+     name: git
+    tags: install_all, necessary_app
+
+# - name: Installing NodeJS (Step 1)
+#   shell: curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+#   tags: install_all, necessary_app, nodejs
+#
+# - name: Installing NodeJS (Step 2)
+#   apt:
+#     name: nodejs
+#     state: latest
+#   tags: install_all, dev-tools, MEANStack, nodejs
+
+
+#  - name: Install MongoDB
+#    become: true
+#    shell: "{{ role_path }}/files/install_mongo_base_os_ver.sh"
+#    tags: install_all, dev-tools, MEANStack, mongodb
+###
+# INSTALL MONGODB
+################
+
+  - name: "Installing MongoDB (Import the public key used by the package management system and create a list file for MongoDB )"
+    shell: "{{ role_path }}/files/install_mongo_base_os_ver.sh"
+
+  - name: Install MongdoDB
+    apt:
+      name: mongodb-org
+      state: latest
+
+  - name: Copy file mongod.service to /lib/systemd/system/mongod.service
+    copy:
+      src: "{{ role_path }}/files/mongod.service"
+      dest: "/lib/systemd/system/mongod.service"

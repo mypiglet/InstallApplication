@@ -1,5 +1,5 @@
 ---
  - hosts: local
-   sudo: true
+   become: true
    roles:
-     - ubuntu
+      - { role: common-tools, tags: common-tools }
