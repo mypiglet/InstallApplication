@@ -33,5 +33,7 @@
 
   - name: Starting MongoDB
     become: true
-    shell: service mongod start
+    service:
+      name: mongod
+      state: started
     tags: install_all, dev-tools, mean_stack, mongodb
