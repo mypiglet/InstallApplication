@@ -1,0 +1,39 @@
+---
+  - name: Prerequisites for installing Docker
+    become: yes
+    shell: "{{ role_path }}/files/prepare_for_install_docker.sh"
+    tags: install_all, devops_tool, docker
+
+  - name: Install docker
+    become: true
+    apt:
+      name: docker-engine
+      state: latest
+    tags: install_all, devops_tool, docker
+
+  - name: Creating a Docker group
+    become: yes
+    group:
+      name: docker
+      state: present
+    tags: install_all, devops_tool, docker
+
+#  - name: Getting remote USER value
+#    shell: echo $USER ||  env | grep USER | awk -F= '{ print $2 }' #if A failed then use B
+#    tags: install_all, devops_tool, docker
+#    register: remote_user
+
+  #similar with shell: "usermod -aG docker $USER"
+  - name: Adding your user ("{{ remote_user }}")to docker group.
+    sudo: yes
+    user:
+      name: "{{ remote_user }}"
+      append: yes
+      group: docker
+    tags: install_all, devops_tool, docker
+
+  - name: Starting Docker Engine
+    service:
+      name: docker
+      state: restarted
+    tags: install_all, devops_tool, docker

@@ -1,2 +1,3 @@
 ---
-  - name: Installing Docker
+  - include: "{{ role_path }}/files/ubuntu.yml"
+    when: ansible_distribution == "Ubuntu"
