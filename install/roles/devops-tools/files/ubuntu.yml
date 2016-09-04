@@ -21,15 +21,15 @@
 #  - name: Getting remote USER value
 #    shell: echo $USER ||  env | grep USER | awk -F= '{ print $2 }' #if A failed then use B
 #    tags: install_all, devops_tool, docker
-#    register: remote_user
 
   #similar with shell: "usermod -aG docker $USER"
   - name: Adding your user ("{{ remote_user }}")to docker group.
-    sudo: yes
+    become: yes
     user:
       name: "{{ remote_user }}"
       append: yes
       group: docker
+      state: present
     tags: install_all, devops_tool, docker
 
   - name: Starting Docker Engine
@@ -37,3 +37,4 @@
       name: docker
       state: restarted
     tags: install_all, devops_tool, docker
+

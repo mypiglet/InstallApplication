@@ -1,50 +1,39 @@
 ---
-  - name: Create default directory
-    file:
-      path: "{{ item.dir }}"
-      mode: "{{ item.mode }}"
-      state: directory
-      recurse: yes
-    with_items:
-      "{{ configs_dir }}"
+  ##
+  ## MEAN stack
+  - name: Installing NodeJS (Step 1)
+    shell: curl -sL https://deb.nodesource.com/setup_"{{ nodejs_ver_no }}".x | sudo -E bash -
+    tags: "install_all, dev-tool, mean_stack, nodejs"
 
-  - name: Install Unikey for Ubuntu
+  - name: Installing NodeJS (Step 2)
     apt:
-      name: ibus-unikey
+      name: nodejs
       state: latest
-    tags: "install_all, common_tool"
+    tags: install_all, dev-tools, mean_stack, nodejs
 
-  - name: Installing OpenJDK
-    apt:
-      name: openjdk-8-jdk
-    tags: "install_all, common_tool"
 
-  - name: Installing Filezilla
-    apt:
-      name: filezilla
-    tags: "install_all, common_tool"
+    # INSTALL MONGODB
+    ################
 
-  - name: Installing VirtualBox (latest version)
-    apt:
-      name: virtualbox
-    tags: "install_all, common_tool"
+  - name: "Installing MongoDB (Import the public key used by the package management system and create a list file for MongoDB )"
+    shell: "{{ role_path }}/files/install_mongo_base_os_ver.sh"
+    tags: install_all, dev-tools, mean_stack, mongodb
 
-  - name: Installing Virtualbox extension package
+  - name: Install MongdoDB
     apt:
-      name: virtualbox-ext-pack
-    tags: "install_all, common_tool"
+      name: mongodb-org
+      state: latest
+    tags: install_all, dev-tools, mean_stack, mongodb
 
-  - name: Installing Skype
-    apt:
-      deb: https://download.skype.com/linux/skype-ubuntu-precise_4.3.0.37-1_i386.deb
-    tags: "install_all, common_tool"
+  - name: Copy file mongod.service to /lib/systemd/system/mongod.service
+    copy:
+      src: "{{ role_path }}/files/mongod.service"
+      dest: "/lib/systemd/system/mongod.service"
+    tags: install_all, dev-tools, mean_stack, mongodb
 
-  - name: Installing Teamview
-    apt:
-      deb: https://download.teamviewer.com/download/teamviewer_i386.deb
-    tags: "install_all, common_tool"
-
-  - name: Installing Git version control
-    apt:
-      name: git
-    tags: "install_all, common_tool"
+  - name: Starting MongoDB
+    become: true
+    service:
+      name: mongod
+      state: started
+    tags: install_all, dev-tools, mean_stack, mongodb

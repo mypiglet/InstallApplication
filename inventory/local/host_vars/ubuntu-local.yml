@@ -3,3 +3,6 @@ ansible_become: true
 ansible_connection: local
 ansible_become_pass: 1111111
 remote_user: hoanvx
+
+#Dev-tools variables
+nodejs_ver_no: 5
