@@ -1,0 +1,37 @@
+---
+  ##
+  ## MEAN stack
+  - name: Installing NodeJS (Step 1)
+    shell: curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+    tags: "install_all, dev-tool, mean_stack, nodejs"
+
+  - name: Installing NodeJS (Step 2)
+    apt:
+      name: nodejs
+      state: latest
+    tags: install_all, dev-tools, mean_stack, nodejs
+
+
+    # INSTALL MONGODB
+    ################
+
+  - name: "Installing MongoDB (Import the public key used by the package management system and create a list file for MongoDB )"
+    shell: "{{ role_path }}/files/install_mongo_base_os_ver.sh"
+    tags: install_all, dev-tools, mean_stack, mongodb
+
+  - name: Install MongdoDB
+    apt:
+      name: mongodb-org
+      state: latest
+    tags: install_all, dev-tools, mean_stack, mongodb
+
+  - name: Copy file mongod.service to /lib/systemd/system/mongod.service
+    copy:
+      src: "{{ role_path }}/files/mongod.service"
+      dest: "/lib/systemd/system/mongod.service"
+    tags: install_all, dev-tools, mean_stack, mongodb
+
+  - name: Starting MongoDB
+    become: true
+    shell: service mongod start
+    tags: install_all, dev-tools, mean_stack, mongodb

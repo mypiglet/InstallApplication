@@ -5,6 +5,6 @@
 #sudo apt-get install ansible -y
 
 #Run ansible playbook
-ansible-playbook -i inventory/local/ubuntu-local.yml install/install-all.yml
+ansible-playbook -i inventory/local/ubuntu-local.yml install/install-all.yml --tags dev-tools
 
 
