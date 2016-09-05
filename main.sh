@@ -14,6 +14,6 @@ fi
 
 
 #Run ansible playbook
-ansible-playbook -i inventory/local/ubuntu-local.yml install/install-all.yml --tags dev-tools
+ansible-playbook -i inventory/local/ubuntu-local.yml install/install-all.yml --tags jenkins
 
 

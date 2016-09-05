@@ -13,6 +13,13 @@
       allow_unauthenticated: yes
     tags: install_all, devops_tool, docker
 
+  - name: Installing docker-py
+    become: yes
+    pip:
+      name: docker-py
+      state: latest
+    tags: install_all, devops_tool, docker
+
   - name: Creating a Docker group
     become: yes
     group:

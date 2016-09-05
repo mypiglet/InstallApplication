@@ -37,3 +37,8 @@
       name: mongod
       state: started
     tags: install_all, dev-tools, mean_stack, mongodb
+
+  - name: Intalling openjdk-7-jdk
+    apt:
+      name: openjdk-7-jdk
+    tags: install_all, dev-tools, jdk7

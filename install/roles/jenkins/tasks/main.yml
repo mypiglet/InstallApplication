@@ -1,0 +1,27 @@
+---
+  - name: Running jenkins
+    docker:
+      name: jenkins-master
+      image: jenkins:1.651.2
+      ports:
+        - "8080:8080"
+      state: started
+      net: host
+      volumes:
+        - /data/jenkins:/jenkins-master
+
+  - name: Downloaing jenkins-cli.jar file
+    get_url:
+      url: http://localhost:8080/jnlpJars/jenkins-cli.jar
+      dest: .
+      group: "{{ remote_user }}"
+      owner: "{{ remote_user }}"
+      mode: 0755
+    ignore_errors: yes
+
+  - name: Installing jenking plugin
+    shell: "{{ role_path }}/files/install-jenkins-plugin.sh {{ item }}"
+    with_items:
+      - git
+      - workflow-aggregator
+      - checkstyle
