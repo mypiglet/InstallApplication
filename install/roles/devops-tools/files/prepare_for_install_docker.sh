@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Try block
 {
+    #Update certificate
+    update-ca-certificates -f
+    apt-get install --reinstall ca-certificates
+
     echo Update package information, ensure that APT works with the https method, and that CA certificates are installed
     apt-get update -y
     apt-get install -y apt-transport-https ca-certificates
@@ -35,21 +39,22 @@
     apt-get purge lxc-docker
 
     echo Verify that APT is pulling from the right repository.
-    #apt-cache policy docker-engine
+    apt-cache policy docker-engine
 
     echo Prerequisites by Ubuntu Version
     echo Install the recommended packages.
     app_name=""
 
-    if [ "`dpkg -s linux-image-extra-$(uname -r) | grep Status: | awk -F': ' '{ print $2}'`" == "install ok installed" ]; then
+    if [ "`dpkg -s linux-image-extra-$(uname -r) | grep Status: | awk -F': ' '{ print $2}'`" != "install ok installed" ]; then
 
         app_name="linux-image-extra-$(uname -r)"
     fi
 
-    if [ "`dpkg -s linux-image-extra-virtual | grep Status: | awk -F': ' '{ print $2 }'`" == "install ok installed" ]; then
+    if [ "`dpkg -s linux-image-extra-virtual | grep Status: | awk -F': ' '{ print $2 }'`" != "install ok installed" ]; then
 
         app_name="$app_name linux-image-extra-virtual"
     fi
+
     #apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
 
     echo app name $app_name
@@ -59,7 +64,8 @@
 
     #echo Upgrade your kernel and install the additional packages, do the following:
     echo Installing \"Linux-image-generic-lts-trusty\"
-    if [ "$current_ver" == "12.04" ]; then
+
+    if [ "`dpkg -s linux-image-generic-lts-trusty | grep Status: | awk -F': ' '{ print $2}'`" != "install ok installed" ]; then
         apt-get install linux-image-generic-lts-trusty
     else
         echo SKIP because your Ubuntu OS version is not equal 12.04

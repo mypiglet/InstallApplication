@@ -1,8 +1,8 @@
 ansible_host: 127.0.0.1
 ansible_become: true
 ansible_connection: local
-ansible_become_pass: 1111111
-remote_user: hoanvx
+ansible_become_pass: 111111
+remote_user: hoanvo
 
 #Dev-tools variables
 nodejs_ver_no: 5

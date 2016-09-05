@@ -5,10 +5,12 @@
     tags: install_all, devops_tool, docker
 
   - name: Install docker
-    become: true
+    become: yes
     apt:
       name: docker-engine
       state: latest
+      force: yes
+      allow_unauthenticated: yes
     tags: install_all, devops_tool, docker
 
   - name: Creating a Docker group
