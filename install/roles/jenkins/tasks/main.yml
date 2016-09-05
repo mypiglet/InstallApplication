@@ -25,3 +25,8 @@
       - git
       - workflow-aggregator
       - checkstyle
+      - email-ext
+      - flexible-publish
+      - external-monitor-job
+      - ghprb # GitHub pull request builder plugin
+      - nodejs #NodeJS Plugin
