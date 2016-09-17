@@ -1,0 +1,32 @@
+---
+  - name: Install Vagrant file for Ubuntu OS
+    shell: echo do nothing
+    tags: vagrant
+
+#  TODO: hoanvo this case is not work
+  - name: Create ~/apps/vagrant/ directory if it not exist
+    file:
+      path: "~/apps/vagrant/"
+      state: directory
+    tags: vagrant
+
+  - name: Checking did vagrant.deb file was download ?
+    shell: "sha1sum /tmp/vagrant_1.8.5_x86_64.deb | awk '{ print $1 }'"
+    register: vagrant_hash_val
+    tags: vagrant
+
+  - name: Downloading vagrant deb file
+    get_url:
+      url: "https://releases.hashicorp.com/vagrant/1.8.5/vagrant_1.8.5_x86_64.deb"
+      dest: "/tmp/"
+      owner: "{{ remote_user }}"
+      group: "{{ remote_group_user }}"
+    when: vagrant_hash_val.stdout == ""
+    tags: vagrant
+
+  - name: Setting up vagrant
+    apt:
+      deb: "/tmp/vagrant_1.8.5_x86_64.deb"
+      force: yes
+    tags: vagrant
+
