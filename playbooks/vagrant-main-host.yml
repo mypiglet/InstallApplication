@@ -1,0 +1,5 @@
+- hosts: deploy
+  remote_user: "{{ remote_user }}"
+  become: yes
+  roles:
+    - common

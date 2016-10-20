@@ -12,6 +12,8 @@
     apt:
       name: ibus-unikey
       state: latest
+      update_cache: yes
+    ignore_errors: yes
     tags: "install_all, common_tool"
 
   - name: Installing OpenJDK

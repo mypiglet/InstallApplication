@@ -1,0 +1,10 @@
+# http://docs.aws.amazon.com/cli/latest/userguide/installing.html#install-bundle-other-os
+# This tool is use to run commands on AWS
+- name: Download awscli-bundle.zip file
+  get_url: url="https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" dest="{{ remote_home_dir }}awscli-bundle.zip"
+
+- name: Extracting awscli-bundle.zip
+  unarchive: src=awscli-bundle.zip dest="{{ remote_home_dir }}"
+
+- name: Setting up awscli-bundle
+  command: "{{ remote_home_dir }}/awscli-bundle/install -b {{ remote_home_dir }}/bin/aws"

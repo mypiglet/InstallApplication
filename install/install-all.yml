@@ -1,8 +1,0 @@
----
- - hosts: local
-   become: true
-   roles:
-      - { role: common-tools, tags: common-tools }
-      - { role: dev-tools, tags: dev-tools }
-      - { role: devops-tools, tags: devops-tools }
-      - { role: jenkins, tags: jenkins }
