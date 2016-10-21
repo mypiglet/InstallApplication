@@ -1,6 +1,0 @@
----
-  - include: "{{ role_path }}/files/docker-ubuntu.yml"
-    when: ansible_distribution == "Ubuntu"
-
-  - include: "{{ role_path }}/files/vagrant-ubuntu.yml"
-    when: ansible_distribution == "Ubuntu"

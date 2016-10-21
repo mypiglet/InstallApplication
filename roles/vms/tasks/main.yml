@@ -1,0 +1,9 @@
+#Virtual machine tools
+- main: Install vagrant
+  apt: name=vagrant state=latest
+
+- name: Installing VirtualBox (latest version)
+  apt: name=virtualbox state=latest
+
+- name: Installing Virtualbox extension package
+  apt: name=virtualbox-ext-pack state=latest

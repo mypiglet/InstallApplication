@@ -1,0 +1,15 @@
+- hosts: localhost
+  remote_user: hoan
+  become: true
+  roles:
+    - role: vms
+
+    # devops tools
+    - role: dochang.docker
+      docker_users: hoan
+      tags: docker
+
+  tasks:
+    - name: nan;a
+#    TODO
+

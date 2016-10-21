@@ -25,24 +25,16 @@
       name: filezilla
     tags: "install_all, common_tool"
 
-  - name: Installing VirtualBox (latest version)
-    apt:
-      name: virtualbox
-    tags: "install_all, common_tool"
-
-  - name: Installing Virtualbox extension package
-    apt:
-      name: virtualbox-ext-pack
-    tags: "install_all, common_tool"
-
   - name: Installing Skype
     apt:
       deb: https://download.skype.com/linux/skype-ubuntu-precise_4.3.0.37-1_i386.deb
+      force: yes
     tags: "install_all, common_tool"
 
   - name: Installing Teamview
     apt:
       deb: https://download.teamviewer.com/download/teamviewer_i386.deb
+      force: yes
     tags: "install_all, common_tool"
 
   - name: Installing Git version control
