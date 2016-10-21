@@ -1,5 +1,5 @@
 ---
- - hosts: local
+ - hosts: localhost
    remote_user: hoan
    become: true
    roles:
