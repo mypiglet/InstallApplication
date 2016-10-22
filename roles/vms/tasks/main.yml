@@ -1,6 +1,6 @@
 #Virtual machine tools
-- main: Install vagrant
-  apt: name=vagrant state=latest
+- name: Install vagrant
+  apt: deb="https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb" force=yes
 
 - name: Installing VirtualBox (latest version)
   apt: name=virtualbox state=latest

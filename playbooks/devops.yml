@@ -3,13 +3,14 @@
   become: true
   roles:
     - role: vms
+      tags: vms
 
     # devops tools
     - role: dochang.docker
       docker_users: hoan
       tags: docker
 
-  tasks:
-    - name: nan;a
+#  tasks:
+#    - name: nan;a
 #    TODO
 

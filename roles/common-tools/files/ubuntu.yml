@@ -13,31 +13,28 @@
       name: ibus-unikey
       state: latest
       update_cache: yes
-    tags: "install_all, common_tool"
+
+  - name: Install Stardict - English dictionary
+    apt:
+      deb: https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/stardict-3/stardict_3.0.4-1_amd64.deb
+      force: yes
+    tags: stardict
 
   - name: Installing OpenJDK
-    apt:
-      name: openjdk-8-jdk
-    tags: "install_all, common_tool"
+    apt: name=openjdk-8-jdk
 
   - name: Installing Filezilla
-    apt:
-      name: filezilla
-    tags: "install_all, common_tool"
+    apt: name=filezilla state=latest
 
   - name: Installing Skype
     apt:
       deb: https://download.skype.com/linux/skype-ubuntu-precise_4.3.0.37-1_i386.deb
       force: yes
-    tags: "install_all, common_tool"
 
   - name: Installing Teamview
     apt:
       deb: https://download.teamviewer.com/download/teamviewer_i386.deb
       force: yes
-    tags: "install_all, common_tool"
 
   - name: Installing Git version control
-    apt:
-      name: git
-    tags: "install_all, common_tool"
+    apt: name=git state=latest
