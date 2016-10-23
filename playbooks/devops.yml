@@ -10,7 +10,9 @@
       docker_users: hoan
       tags: docker
 
-#  tasks:
-#    - name: nan;a
-#    TODO
-
+  tasks:
+    - name: Make sure groovy lib was existed
+      unarchive:
+        src: "https://dl.bintray.com/groovy/maven/apache-groovy-binary-{{ groovy_version }}.zip"
+        dest: "{{ extract_to_path }}"
+      tags: groovy
