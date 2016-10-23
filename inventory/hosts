@@ -1,2 +1,8 @@
 [localhost]
 local
+
+[devops]
+devops
+
+[docker]
+docker

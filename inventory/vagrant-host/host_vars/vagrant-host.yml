@@ -1,8 +1,0 @@
-ansible_host: 10.0.2.15
-ansible_become: true
-ansible_connection: ssh
-ansible_become_pass: 111111
-remote_user: vagrant
-
-#Dev-tools variables
-nodejs_ver_no: 5

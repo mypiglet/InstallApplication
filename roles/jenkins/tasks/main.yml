@@ -1,32 +1,33 @@
----
-  - name: Running jenkins
-    docker:
-      name: jenkins-master
-      image: jenkins:1.651.2
-      ports:
-        - "8080:8080"
-      state: started
-      net: host
-      volumes:
-        - /data/jenkins:/jenkins-master
+- name: Make sure directories were existed
+  file:
+    path: "{{ item.path }}"
+    state: "{{ item.state }}"
+    mode: "{{ item.mode }}"
+    recurse: yes
+  with_items:
+    - { path: "/opt/data/jenkins/master/", mode: "755", state: "directory" }
 
-  - name: Downloaing jenkins-cli.jar file
-    get_url:
-      url: http://localhost:8080/jnlpJars/jenkins-cli.jar
-      dest: .
-      group: "{{ remote_user }}"
-      owner: "{{ remote_user }}"
-      mode: 0755
-    ignore_errors: yes
+- name: Running jenkins
+  docker:
+    name: jenkins-master
+    image: jenkins:2.7.4
+    ports:
+      - "8080:8080"
+    state: started
+    net: host
+    volumes:
+      - /opt/data/jenkins/:/opt/data/jenkins/master
 
-  - name: Installing jenking plugin
-    shell: "{{ role_path }}/files/install-jenkins-plugin.sh {{ item }}"
-    with_items:
-      - git
-      - workflow-aggregator
-      - checkstyle
-      - email-ext
-      - flexible-publish
-      - external-monitor-job
-      - ghprb # GitHub pull request builder plugin
-      - nodejs #NodeJS Plugin
+- name: Downloaing jenkins-cli.jar file
+  get_url:
+    url: http://localhost:8080/jnlpJars/jenkins-cli.jar
+    dest: .
+    group: "{{ remote_user }}"
+    owner: "{{ remote_user }}"
+    mode: 0755
+  ignore_errors: yes
+
+- name: Installing jenking plugin
+  command: "java -jar jenkins-cli.jar -s http://localhost:8080/ install-plugin {{ item }}"
+#  shell: "{{ role_path }}/files/install-jenkins-plugin.sh {{ item }}"
+  with_items: "{{ plugin_name }}"

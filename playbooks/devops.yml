@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: devops
   remote_user: hoan
   become: true
   roles:
@@ -12,7 +12,12 @@
 
   tasks:
     - name: Make sure groovy lib was existed
-      unarchive:
-        src: "https://dl.bintray.com/groovy/maven/apache-groovy-binary-{{ groovy_version }}.zip"
+      get_url:
+        url: "https://dl.bintray.com/groovy/maven/apache-groovy-binary-{{ groovy_version }}.zip"
         dest: "{{ extract_to_path }}"
       tags: groovy
+    - unarchive:
+        src: "{{ extract_to_path }}/apache-groovy-binary-{{ groovy_version }}.zip"
+        dest: "{{ extract_to_path }}"
+      tags: groovy
+
