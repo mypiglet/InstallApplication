@@ -1,0 +1,16 @@
+#Common linux library for develop or it's precondition for running some apps
+
+- name: Installing Python and its dependency
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - python
+    - python-dev
+    - libxml2-dev
+    - libxslt-dev
+    - libssl-dev
+    - libffi-dev
+    - python-pip
+  tags: python
