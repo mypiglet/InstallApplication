@@ -15,12 +15,12 @@ Vagrant.configure("2") do |config|
   # config.vm.box = "ubuntu/trusty64"
 
 
-  config.vm.define "host" do |host|
-    host.vm.box = "ubuntu/trusty64"
-    host.vm.network "forwarded_port", guest: 80, host: 8081
-    config.vm.network "public_network", ip: "192.168.1.30"
+  config.vm.define "host" do |h|
+    h.vm.box = "ubuntu/trusty64"
+    h.vm.network "forwarded_port", guest: 80, host: 8081
+    h.vm.network "public_network", ip: "192.168.1.30"
 
-    host.vm.provision "shell", inline: <<-SHELL
+    h.vm.provision "shell", inline: <<-SHELL
       apt-get update
 
       # Install ansible
@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
       sudo apt-get install ansible -y
     SHELL
 
-    host.vm.provision "ansible" do |ansible|
+    h.vm.provision "ansible" do |ansible|
       ansible.playbook = "../../../playbook/playbook.yml"
     end
   end
@@ -38,17 +38,20 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "web", autostart: false do |web|
     web.vm.box = "ubuntu/trusty64"
-    config.vm.network "public_network", ip: "192.168.1.31"
-
+    web.vm.network "public_network", ip: "192.168.1.31"
   end
 
   config.vm.define "docker", autostart: false do |docker|
     docker.vm.box = "ubuntu/trusty64"
-    config.vm.network "public_network", ip: "192.168.1.32"
+    docker.vm.network "public_network", ip: "192.168.1.32"
 
-    host.vm.provision "docker" do |d|
-      d.build_image = "../../docker/jenkins/"
-    end
+    #docker.vm.provision "shell" do |d|
+    #  d.build_image = "../../docker/jenkins/"
+    #end
+
+    #docker.vm.provision "docker" do |d|
+    #  d.build_image = "../../docker/jenkins/"
+    #end
   end
 
 

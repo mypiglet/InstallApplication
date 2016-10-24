@@ -3,10 +3,11 @@
     path: "{{ item.path }}"
     state: "{{ item.state }}"
     mode: "{{ item.mode }}"
+    owner: "{{ owner_user }}"
     recurse: yes
   with_items:
     - { path: "/opt/data/jenkins/master/", mode: "755", state: "directory" }
-
+- debug: var=owner_user
 - name: Running jenkins
   docker:
     name: jenkins-master
@@ -16,18 +17,19 @@
     state: started
     net: host
     volumes:
-      - /opt/data/jenkins/:/opt/data/jenkins/master
+      - /opt/data/jenkins/master:/opt/data/jenkins/master
 
 - name: Downloaing jenkins-cli.jar file
   get_url:
     url: http://localhost:8080/jnlpJars/jenkins-cli.jar
-    dest: .
-    group: "{{ remote_user }}"
-    owner: "{{ remote_user }}"
+    dest: /opt/data/jenkins/master
+    group: "{{ owner_user or jenkins }}"
+    owner: "{{ owner_user | default(jenkins) }}"
     mode: 0755
-  ignore_errors: yes
+  tags: jenkins1
 
 - name: Installing jenking plugin
-  command: "java -jar jenkins-cli.jar -s http://localhost:8080/ install-plugin {{ item }}"
+  command: "java -jar /opt/data/jenkins/master/jenkins-cli.jar -s http://localhost:8080/ install-plugin {{ item }}"
 #  shell: "{{ role_path }}/files/install-jenkins-plugin.sh {{ item }}"
   with_items: "{{ plugin_name }}"
+  tags: jenkins1

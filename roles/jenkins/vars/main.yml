@@ -8,3 +8,5 @@ plugin_name:
   - ghprb # GitHub pull request builder plugin
   - nodejs #NodeJS Plugin
   - pipeline
+
+remote_user:

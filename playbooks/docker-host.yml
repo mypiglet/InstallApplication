@@ -1,7 +1,8 @@
 - hosts: docker
   remote_user: vagrant
   become: yes
-
+  vars:
+    owner_user: vagrant
 #  pre_tasks:
 #    - name: Make sure secret file was copy to ~/.ssh
 #      pause:
@@ -11,6 +12,7 @@
 #            - 2. enter password when require
   roles:
     - unix-dev-lib
-    - dochang.docker
-    - jenkins
+    - role: dochang.docker
+    - role: jenkins
+      tags: jenkins
     - jenkins-slave

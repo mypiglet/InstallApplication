@@ -14,3 +14,12 @@
     - libffi-dev
     - python-pip
   tags: python
+- pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - urllib3 # require for install docker via ansible galaxy if python's version >= 2.7.9
+    - pyopenssl # require for install docker via ansible galaxy if python's version >= 2.7.9
+    - ndg-httpsclient # require for install docker via ansible galaxy if python's version >= 2.7.9
+    - pyasn1 # require for install docker via ansible galaxy if python's version >= 2.6
+  tags: python
