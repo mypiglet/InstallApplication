@@ -13,6 +13,8 @@
   roles:
     - unix-dev-lib
     - role: dochang.docker
+      docker_dockerpy_version: 1.7.0
+
     - role: jenkins
       tags: jenkins
     - jenkins-slave

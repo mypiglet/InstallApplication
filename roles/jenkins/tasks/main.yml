@@ -8,28 +8,52 @@
   with_items:
     - { path: "/opt/data/jenkins/master/", mode: "755", state: "directory" }
 - debug: var=owner_user
+
+- name: Stopping jenkins
+  docker_container:
+    name: jenkins-master
+    image: jenkins:2.7.4
+    ports:
+      - "8080:8080"
+    state: stopped
+    net: host
+    volumes:
+      - /opt/data/jenkins/master:/opt/data/jenkins/master
+  ignore_errors: yes
+
+
 - name: Running jenkins
-  docker:
+  docker_container:
     name: jenkins-master
     image: jenkins:2.7.4
     ports:
       - "8080:8080"
     state: started
-    net: host
+    network_mode: host
     volumes:
       - /opt/data/jenkins/master:/opt/data/jenkins/master
-
-- name: Downloaing jenkins-cli.jar file
-  get_url:
-    url: http://localhost:8080/jnlpJars/jenkins-cli.jar
-    dest: /opt/data/jenkins/master
-    group: "{{ owner_user or jenkins }}"
-    owner: "{{ owner_user | default(jenkins) }}"
-    mode: 0755
   tags: jenkins1
 
-- name: Installing jenking plugin
-  command: "java -jar /opt/data/jenkins/master/jenkins-cli.jar -s http://localhost:8080/ install-plugin {{ item }}"
-#  shell: "{{ role_path }}/files/install-jenkins-plugin.sh {{ item }}"
-  with_items: "{{ plugin_name }}"
-  tags: jenkins1
+#- command: cat /var/jenkins_home/secrets/initialAdminPassword
+#  register: jenkins_pass
+
+#- debug: var=jenkins_pass
+
+- wait_for: timeout=60
+
+#- name: Downloaing jenkins-cli.jar file
+#  get_url:
+#    url: http://192.168.33.10:8080/jnlpJars/jenkins-cli.jar
+#    dest: /opt/data/jenkins/master
+#    mode: 0755
+#  tags: jenkins1
+#
+#
+#  tags: jenkins1
+#
+#- name: Installing jenking plugin
+#  shell: "java -jar /opt/data/jenkins/master/jenkins-cli.jar -s http://127.0.0.1:8080/ login --username=admin --password=admin"
+#  shell: "java -jar /opt/data/jenkins/master/jenkins-cli.jar -s http://127.0.0.1:8080/ install-plugin {{ item }}"
+##  shell: "{{ role_path }}/files/install-jenkins-plugin.sh {{ item }}"
+#  with_items: "{{ plugin_name }}"
+#  tags: jenkins1
